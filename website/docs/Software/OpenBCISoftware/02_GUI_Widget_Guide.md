@@ -29,7 +29,57 @@ For Cyton users, clicking the Hardware Settings button opens a menu that allows 
 To change the gain of a channel, you can click a dropdown and then scroll to view more options.
 :::
 
-Starting with GUI v5.0.2, all ADS1299 boards (Cyton, Cyton+Daisy) will use a dynamic scaler. This ensures that the scale factor, set in the Hardware Settings view, is always in sync with the numbers shown on user interface displays and recordings. Also, users will need to stop the data stream in order to access the Hardware Settings UI inside the Time Series Widget.
+Starting with GUI v5.0.2, all ADS1299 boards (Cyton, Cyton+Daisy) will use a dynamic scaler. This ensures that the scale factor, set in the Hardware Settings view, is always in sync with the numbers shown on user interface displays and recordings. Also, users will need to stop the data stream in order to access the Hardware Settings UI inside the Time Series Widget. Below is an explanation of what the various Hardware Settings are and what their functionality is:
+
+#### PGA Gain
+
+The PGA Gain has seven options: x1, x2, x4, x6, x8, x12, and x24.
+The PGA Gain refers to the amplification factor that can be adjusted programmatically to amplify the input signal before it is converted from analog to digital.
+In the context of the ADS1299 board or any similar analog front-end with programmable gain amplifiers (PGAs), increasing the gain amplifies the input signal before it is digitized by the Analog-to-Digital Converter (ADC). Here’s what happens when you increase the gain:
+
+1. **Signal Amplification**: The primary purpose of increasing the gain is to amplify weak signals to a measurable level. Biopotential signals, such as EEG (electroencephalography) or ECG (electrocardiography), are often very small in amplitude. Increasing the gain allows these weak signals to be more easily detected and measured.
+
+2. **Improved Signal-to-Noise Ratio (SNR)**: By amplifying the signal, the desired signal (such as EEG or ECG) becomes more prominent relative to any background noise present in the signal. This improves the SNR, which is crucial for accurate signal analysis and interpretation.
+
+3. **Dynamic Range Utilization**: Analog-to-digital converters (ADCs) have a finite range within which they can accurately measure signals. Increasing the gain ensures that the input signal amplitude falls within this range optimally. This prevents the signal from being too weak (underutilizing the ADC’s resolution) or too strong (risking saturation or clipping).
+
+4. **Adjustment for Different Signal Levels**: Different applications or measurement scenarios may require different gain settings to ensure that the signal amplitude is appropriate for accurate digitization and subsequent analysis.
+
+#### Input Type
+
+The Input Type has eight options: Normal, Shorted, BIAS Meas, MVDD, Temp, Test, BIAS DRP, and BIAS DRN.
+refers to the different modes or configurations in which the input channels of the board can operate. These modes are typically designed to accommodate various functionalities necessary for biopotential measurements and diagnostic checks. Here’s a breakdown of what each input type generally signifies:
+
+| Input Type | Description                                                                                                                                                                                                           |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Normal     | Standard mode for biopotential measurements.                                                                                                                                                                          |
+| Shorted    | The positive and negative inputs of each channel are shorted together. This mode is used to verify the integrity of the signal path and to check for offsets or abnormalities in the circuitry.                       |
+| BIAS Meas  | This mode is used for bias measurement. It allows the system to measure the voltage levels used for biasing electrodes, which can be important for maintaining a stable reference point for the biopotential signals. |
+| MVDD       | This input is typically used to measure the voltage supply level (MVDD) of the ADS1299 chip itself. Monitoring this voltage can help ensure that the chip is receiving adequate power for proper operation.           |
+| Temp       | This input type is used to measure temperature. Some systems may have temperature sensors integrated, and this input allows for monitoring the temperature of the device or environment.                              |
+| Test       | Test inputs are used for internal testing purposes.                                                                                                                                                                   |
+| BIAS DRP   | This mode is used for differential biasing in systems that perform differential measurements. It provides the positive bias voltage necessary to set the common-mode level of the input signals accurately.           |
+| BIAS DRN   | This mode is used for differential biasing in systems that perform differential measurements. It provides the negative bias voltage necessary to set the common-mode level of the input signals accurately.           |
+
+#### Bias Include
+
+The Bias Include option is a Yes or No setting that determines whether the bias is included.
+
+When the bias is included, the system applies a common-mode bias voltage to the input signals. This helps to stabilize the signals and improve the signal-to-noise ratio (SNR) by reducing common-mode interference and ensuring the signals are within the optimal range for accurate measurement.
+
+When the bias is not included, the input signals are measured without the application of the common-mode bias voltage. This mode might be used for specific types of measurements or diagnostics where the biasing is not necessary or could interfere with the signals being measured.
+
+#### SRB2
+
+SRB2 stands for "Sense Reference Buffer 2". It is a common reference electrode connection used in EEG (Electroencephalography) and other biopotential measurements.
+Our SRB2 is internally connected to the positive inputs of all channels, allowing for easy configuration and setup. This flexibility makes it simpler to establish a consistent reference across multiple channels without needing external connections. The Galea right earclip has an SRB2 reference.
+This setup ensures that all channels using SRB2 have a common reference point, improving overall measurement consistency and accuracy.
+
+#### SRB1
+
+SRB1 stands for "Sense Reference Buffer 1". It serves a similar purpose to SRB2, but with some differences in its typical use and configuration
+SRB1, like SRB2, is used as a common reference electrode for multiple input channels.
+SRB1 is internally connected to the negative inputs of all channels. Toggling SRB1 will connect it to all inverting inputs of the same ADS1299. This is an advanced feature, and is not commonly used.
 
 ### Filters
 
